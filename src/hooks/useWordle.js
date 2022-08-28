@@ -7,6 +7,7 @@ const useWordle = (solution) => {
     const [guesses, setGuesses] = useState([]) // each guess is an array
     const [history, setHistory] = useState([]) // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false)
+    
 
     const formatGuess = () => {
 
@@ -33,7 +34,16 @@ const useWordle = (solution) => {
             }
         }
 
-        if (key === 'Enter' && currentGuess.length === 5) {
+        if (key === 'Enter' && currentGuess.length === 5 && turn > 5) {
+            
+            if(currentGuess === solution) {
+                setIsCorrect(true)
+            }
+
+            setHistory((prev) => {
+                return [...prev, currentGuess]
+            })
+            
             setTurn((prev) => {
                 return prev + 1
             })
