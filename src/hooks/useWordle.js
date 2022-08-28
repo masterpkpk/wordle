@@ -32,6 +32,20 @@ const useWordle = (solution) => {
                 })
             }
         }
+
+        if (key === 'Enter' && currentGuess.length === 5) {
+            setTurn((prev) => {
+                return prev + 1
+            })
+            
+            setGuesses((prev) =>{
+                return [...prev, currentGuess]
+            })
+            setCurrentGuess('')
+            
+        }
+
+        
     }
     
     return {turn, currentGuess, guesses, isCorrect, handleKeyup}
