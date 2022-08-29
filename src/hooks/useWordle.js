@@ -7,10 +7,29 @@ const useWordle = (solution) => {
     const [guesses, setGuesses] = useState([]) // each guess is an array
     const [history, setHistory] = useState([]) // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false)
-    
+
 
     const formatGuess = () => {
+        let solutionArray = [...solution]
+        let formattedGuess = [...currentGuess].map((l) => {
+            return {key: l, color: 'grey'}
+        })
 
+        formattedGuess.forEach((l, i) => {
+            if (solutionArray[i] === l.key) {
+                formattedGuess[i].color = 'green'
+                solutionArray[i] = null
+            }
+        })
+
+        formattedGuess.forEach((l, i) => {
+            if (solutionArray.includes(l.key) && l.color !== 'green') {
+                formattedGuess[i].color = 'yellow'
+                solutionArray[solutionArray.indexOf(l.key)] = null
+            }
+        })
+
+        return formattedGuess
     }
 
     const addNewGuess = () => {
@@ -34,8 +53,18 @@ const useWordle = (solution) => {
             }
         }
 
-        if (key === 'Enter' && currentGuess.length === 5 && turn > 5) {
+        if (key === 'Enter') {
             
+            if(currentGuess.length < 5) {
+                console.log('That guess is too short')
+                return
+            }
+
+            if(turn > 5) {
+                console.log("You've used all of your guesses!")
+                return
+            }
+
             if(currentGuess === solution) {
                 setIsCorrect(true)
             }
@@ -52,13 +81,16 @@ const useWordle = (solution) => {
                 return [...prev, currentGuess]
             })
             setCurrentGuess('')
+
+            const formatted = formatGuess()
+            console.log(formatted)
             
         }
 
         
     }
     
-    return {turn, currentGuess, guesses, isCorrect, handleKeyup}
+    return {turn, currentGuess, guesses, isCorrect, handleKeyup, history}
 
 }
 
