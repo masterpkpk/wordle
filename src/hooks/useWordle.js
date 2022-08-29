@@ -56,7 +56,7 @@ const useWordle = (solution) => {
         if (key === 'Enter') {
             
             if(currentGuess.length < 5) {
-                console.log('That guess is too short')
+                console.log('That guess is too short!')
                 return
             }
 
