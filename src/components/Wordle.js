@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import useWordle from '../hooks/useWordle'
 
 export default function Wordle({ solution }) {
-    const { currentGuess, handleKeyup, isCorrect, history, guesses } = useWordle(solution)
+    const { currentGuess, handleKeyup, isCorrect, history, guesses, turn } = useWordle(solution)
   
   
     useEffect(() => {
@@ -11,12 +11,17 @@ export default function Wordle({ solution }) {
         return () => window.removeEventListener('keyup', handleKeyup)
     }, [handleKeyup])
 
+    useEffect(() => {
+      console.log(guesses, turn, isCorrect)
+    }, [guesses, turn, isCorrect])
+    
+    
     return (
     
     <div>
-    {guesses && <ul>Past Guesses: {guesses}</ul>}
-    {!isCorrect && <div>Current Guess: {currentGuess}</div>}    
-    {isCorrect && <div>You win!</div>}
+      <div>solution - {solution} </div>
+      {!isCorrect && <div>Current Guess: {currentGuess}</div>}    
+      {isCorrect && <div>You win!</div>}
     </div>
   )
 }

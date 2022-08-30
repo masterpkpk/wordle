@@ -4,13 +4,14 @@ import { useState } from 'react'
 const useWordle = (solution) => {
     const [turn, setTurn] = useState(0) 
     const [currentGuess, setCurrentGuess] = useState('')
-    const [guesses, setGuesses] = useState([]) // each guess is an array
+    const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
     const [history, setHistory] = useState([]) // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false)
 
 
     const formatGuess = () => {
         let solutionArray = [...solution]
+        
         let formattedGuess = [...currentGuess].map((l) => {
             return {key: l, color: 'grey'}
         })
@@ -32,7 +33,23 @@ const useWordle = (solution) => {
         return formattedGuess
     }
 
-    const addNewGuess = () => {
+    const addNewGuess = (formattedGuess) => {
+        if (currentGuess === solution) {
+            setIsCorrect(true)
+        }
+        setGuesses((prevGuesses) => {
+            
+            let newGuesses = [...prevGuesses]
+            newGuesses[turn] = formattedGuess
+            return newGuesses
+        })
+        setHistory((prevHistory) => {
+             return [...prevHistory, currentGuess]
+        })
+        setTurn((prevTurn) => {
+            return prevTurn + 1
+        })
+        setCurrentGuess('')
 
     }
 
@@ -64,27 +81,9 @@ const useWordle = (solution) => {
                 console.log("You've used all of your guesses!")
                 return
             }
-
-            if(currentGuess === solution) {
-                setIsCorrect(true)
-            }
-
-            setHistory((prev) => {
-                return [...prev, currentGuess]
-            })
             
-            setTurn((prev) => {
-                return prev + 1
-            })
-            
-            setGuesses((prev) =>{
-                return [...prev, currentGuess]
-            })
-            setCurrentGuess('')
-
-            const formatted = formatGuess()
-            console.log(formatted)
-            
+            const formatted = formatGuess()  
+            addNewGuess(formatted)
         }
 
         
