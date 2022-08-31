@@ -9,6 +9,13 @@ const useWordle = (solution) => {
     const [isCorrect, setIsCorrect] = useState(false)
 
 
+    const resetGame = () => {
+        setGuesses([...Array(6)])
+        setTurn(0)
+    }
+    
+    
+    
     const formatGuess = () => {
         let solutionArray = [...solution]
         
@@ -89,7 +96,7 @@ const useWordle = (solution) => {
         
     }
     
-    return {turn, currentGuess, guesses, isCorrect, handleKeyup, history}
+    return {turn, currentGuess, guesses, isCorrect, handleKeyup, history, resetGame}
 
 }
 

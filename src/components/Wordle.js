@@ -3,7 +3,7 @@ import useWordle from '../hooks/useWordle'
 import Grid from './Grid'
 
 export default function Wordle({ solution }) {
-    const { currentGuess, handleKeyup, isCorrect, history, guesses, turn } = useWordle(solution)
+    const { currentGuess, handleKeyup, isCorrect, history, guesses, turn, resetGame } = useWordle(solution)
   
   
     useEffect(() => {
@@ -20,10 +20,9 @@ export default function Wordle({ solution }) {
     return (
     
     <div>
-      <div>solution - {solution} </div>
-      {!isCorrect && <div>Current Guess: {currentGuess}</div>} 
       <Grid  currentGuess={currentGuess} guesses={guesses} turn={turn}/>   
       {isCorrect && <div>You win!</div>}
+      {turn > 5 && <button onClick={() => resetGame() }>Try again!</button>}
     </div>
   )
 }
