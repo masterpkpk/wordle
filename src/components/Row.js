@@ -10,9 +10,9 @@ export default function Row({ guess, currentGuess }) {
     if (guess) {
     return (
         <div className='row past'>
-            {guess.map((l, i) => (
-                <div key={i} className={l.color}>{l.key}</div>
-            ))}
+            {guess.map((l, i) => {
+                return <div key={i} className={l.color}>{l.key}</div>
+            })}
         </div>
       )
     }
