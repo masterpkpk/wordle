@@ -57,27 +57,26 @@ const useWordle = (solution) => {
         setTurn((prevTurn) => {
             return prevTurn + 1
         })
-        setUsedKeys((prevUsedKeys) => {
-            let newKeys = {...prevUsedKeys}
-
-            formattedGuess.forEach((l) => {
-               const currentColor = newKeys[l.key]
-               if (l.color === 'green') {
-                newKeys[l.key] = 'green'
+        setUsedKeys(prevUsedKeys => {
+            formattedGuess.forEach(l => {
+              const currentColor = prevUsedKeys[l.key]
+      
+              if (l.color === 'green') {
+                prevUsedKeys[l.key] = 'green'
                 return
-               }
-               if (l.color === 'yellow' && currentColor !== 'green') {
-                newKeys[l.key] = 'yellow'
+              }
+              if (l.color === 'yellow' && currentColor !== 'green') {
+                prevUsedKeys[l.key] = 'yellow'
                 return
-               }
-               if (l.color === 'grey' && currentColor !== 'green' && currentColor !== 'yellow') {
-                newKeys[l.key] = 'grey'
+              }
+              if (l.color === 'grey' && currentColor !== ('green' || 'yellow')) {
+                prevUsedKeys[l.key] = 'grey'
                 return
-               }
-               return newKeys
-
+              }
             })
-        })
+      
+            return prevUsedKeys
+          })
         setCurrentGuess('')
 
     }
@@ -118,7 +117,7 @@ const useWordle = (solution) => {
         
     }
     
-    return {turn, currentGuess, guesses, isCorrect, handleKeyup, history, resetGame}
+    return {turn, currentGuess, guesses, isCorrect, handleKeyup, usedKeys, history, resetGame}
 
 }
 
